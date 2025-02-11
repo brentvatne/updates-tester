@@ -6,10 +6,9 @@ import { useState } from "react";
 export default function Index() {
   const [channel, setChannel] = useState(Updates.channel ?? "main");
   const [url, setUrl] = useState(Constants.expoConfig?.updates?.url ?? "");
-
   return (
     <View style={styles.container}>
-      <Text>URL</Text>
+      <Text style={styles.label}>URL</Text>
       <TextInput
         style={styles.inputs}
         value={url}
@@ -17,7 +16,7 @@ export default function Index() {
         autoCapitalize="none"
         autoCorrect={false}
       />
-      <Text>Channel</Text>
+      <Text style={styles.label}>Channel</Text>
       <TextInput
         style={styles.inputs}
         value={channel}
@@ -40,6 +39,17 @@ export default function Index() {
           );
         }}
       />
+
+      <Button
+        title="Clear configuration overrides"
+        onPress={() => {
+          Updates.setUpdateURLAndRequestHeadersOverride(null);
+          Alert.alert(
+            "Clear configuration overrides",
+            "Successfully cleared update URL and request headers override. Close and re-open the app for it to take effect.",
+          );
+        }}
+      />
     </View>
   );
 }
@@ -47,7 +57,7 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#eee",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -56,11 +66,16 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
   },
+  label: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginTop: 20,
+  },
   inputs: {
-    height: 60,
+    height: 50,
     padding: 5,
     borderRadius: 5,
-    width: 300,
+    width: 320,
     margin: 10,
     backgroundColor: "#fff",
   },
